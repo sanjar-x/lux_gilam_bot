@@ -1,16 +1,31 @@
 import sqlite3
-from datetime import datetime
-from database_queries import create_users_table_query
+from tables_queries import creat_tables_queries, drop_tables_queries
 
 
-def create_tables():
+def create_all_tables():
     connection = sqlite3.connect("luxgilam.db")
     cursor = connection.cursor()
-    cursor.execute(create_users_table_query)
-    connection.commit()
+    for query in creat_tables_queries:
+        cursor.execute(query)
+        connection.commit()
     cursor.close()
     connection.close()
 
+
+def reset_database():
+    connection = sqlite3.connect("luxgilam.db")
+    cursor = connection.cursor()
+    for query in drop_tables_queries:
+        cursor.execute(query)
+        connection.commit()
+    for query in creat_tables_queries:
+        cursor.execute(query)
+        connection.commit()
+    cursor.close()
+    connection.close()
+
+
+reset_database()
 
 # connection.commit()
 # cursor.execute()
